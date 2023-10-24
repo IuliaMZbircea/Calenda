@@ -17,5 +17,27 @@ Sync with other apps and platforms to ensure you never miss out on any event or 
 ## 5. Interactive Interface 🎨
 A user-friendly design ensures that planning and task management become an effortless activity rather than a chore.
 
+
+## N-layer architecture ⚙️
+
+1. **Presentation Layer (UI)**:
+   - Responsible for the user interface components and user interaction.
+   - Utilizes React Native for screens, components, and navigation.
+
+2. **Application Layer (Business Logic)**:
+   - Contains the core business logic, including event management and user input handling.
+   - Designed to be reusable and independent of specific UI components.
+
+3. **Data Persistence Layer (Database)**:
+   - Provides data storage solutions, such as SQLite.
+
+4. **Communication Layer (API Integration)**:
+   - Handles communication with external APIs, services, or backend servers.
+   - Manages API requests, responses, and data transformation.
+
+5. **Cross-cutting Concerns Layer (Utilities and Shared Code)**:
+   - Contains shared code for authentication, validation, error handling, and logging.
+
+
 ## Conclusion 🚀
 Stay organized, achieve your goals, and make the most of every day with Calenda - your personal assistant for a productive life!
