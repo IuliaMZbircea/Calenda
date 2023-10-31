@@ -1,7 +1,7 @@
 # Calenda App 📅
 Introducing Calenda - the seamless blend of a comprehensive calendar with an intuitive agenda. Designed for the modern individual, Calenda offers a streamlined approach to manage your daily tasks, track long-term goals, and plan your days, weeks, and months with precision.
 
-##Development Environment 🛠️
+## Development Environment 🛠️
 
 For the creation of Calenda, we’ve opted to utilize the dynamic duo of Xcode and React Native. This combination allows us to craft an app with the high-performance characteristics of native development through Xcode, while benefiting from the rapid development and cross-platform capabilities of React Native. Together, these tools underpin Calenda’s responsive and consistent user experience on multiple devices.
 
