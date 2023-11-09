@@ -1,19 +1,3 @@
-<<<<<<< HEAD
-# Expo Router Example
-
-Use [`expo-router`](https://expo.github.io/router) to build native navigation using files in the `app/` directory.
-
-## 🚀 How to use
-
-```sh
-npx create-expo-app -e with-router
-```
-
-## 📝 Notes
-
-- [Expo Router: Docs](https://expo.github.io/router)
-- [Expo Router: Repo](https://github.com/expo/router)
-=======
 # Calenda App 📅
 Introducing Calenda - the seamless blend of a comprehensive calendar with an intuitive agenda. Designed for the modern individual, Calenda offers a streamlined approach to manage your daily tasks, track long-term goals, and plan your days, weeks, and months with precision.
 
@@ -61,4 +45,3 @@ A user-friendly design ensures that planning and task management become an effor
 
 ## Conclusion 🚀
 Stay organized, achieve your goals, and make the most of every day with Calenda - your personal assistant for a productive life!
->>>>>>> origin/main
