@@ -12,7 +12,7 @@ const Home = () => {
             <Text style={styles.subText}>A new way to organize your time efficiently.</Text>
             <CustomButton
                 title="Get Started"
-                onPress={() => navigation.navigate('NextPage')} 
+                onPress={() => navigation.navigate('CalendarPage')} 
                 
             />
         </View>
