@@ -1,32 +1,91 @@
-import React from 'react';
-import { View } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Button, StyleSheet } from 'react-native';
 import { Calendar } from 'react-native-calendars';
+import { useNavigation } from '@react-navigation/native';
 
 const CalendarPage = () => {
+  const navigation = useNavigation();
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  const onDayPress = (day) => {
+    console.log('selected day', day);
+    setSelectedDate(day.dateString);
+  };
+
+  const navigateToCreateTask = () => {
+    navigation.navigate('CreateTaskPage', { date: selectedDate });
+  };
+
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
       <Calendar
-        // Initially visible month. Default = Date()
-        current={Date()}
-        // Handler which gets executed on day press. Default = undefined
-        onDayPress={(day) => { console.log('selected day', day) }}
-        // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
+        current={new Date()}
+        onDayPress={onDayPress}
         monthFormat={'yyyy MM'}
-        // Handler which gets executed when visible month changes in calendar. Default = undefined
-        onMonthChange={(month) => { console.log('month changed', month) }}
-        // Hide month navigation arrows. Default = false
+        onMonthChange={(month) => console.log('month changed', month)}
         hideArrows={false}
-        // Do not show days of other months in month page. Default = false
         hideExtraDays={true}
-        // If firstDay=1 week starts from Monday.
         firstDay={1}
-        // Show week numbers to the left. Default = false
-        showWeekNumbers={true}
-        // Do not allow selection of dates before today. Default = false
-        minDate={Date()}
+        showWeekNumbers={false}
+        minDate={new Date().toISOString().split('T')[0]}
+        theme={calendarTheme}
+        markedDates={{
+          [selectedDate]: {selected: true, selectedColor: '#5E60CE'}
+        }}
       />
+      {selectedDate && (
+        <View style={styles.buttonContainer}>
+          <Button
+            title="Create Task"
+            onPress={navigateToCreateTask}
+            color="#5E60CE"
+          />
+          <Text style={styles.selectedDateText}>
+            Selected Date: {selectedDate}
+          </Text>
+        </View>
+      )}
     </View>
   );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F0F4F8',
+  },
+  buttonContainer: {
+    margin: 10,
+    borderRadius: 5,
+    overflow: 'hidden',
+  },
+  selectedDateText: {
+    marginTop: 10,
+    textAlign: 'center',
+    fontSize: 16,
+    color: '#333333',
+  },
+});
+
+const calendarTheme = {
+  backgroundColor: '#ffffff',
+  calendarBackground: '#ffffff',
+  textSectionTitleColor: '#b6c1cd',
+  selectedDayBackgroundColor: '#5E60CE',
+  selectedDayTextColor: '#ffffff',
+  todayTextColor: '#5E60CE',
+  dayTextColor: '#2d4150',
+  textDisabledColor: '#d9e1e8',
+  dotColor: '#5E60CE',
+  selectedDotColor: '#ffffff',
+  arrowColor: 'orange',
+  monthTextColor: 'blue',
+  textDayFontWeight: '300',
+  textMonthFontWeight: 'bold',
+  textDayHeaderFontWeight: '300',
+  textDayFontSize: 16,
+  textMonthFontSize: 16,
+  textDayHeaderFontSize: 16
 };
 
 export default CalendarPage;
