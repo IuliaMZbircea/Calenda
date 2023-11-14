@@ -27,13 +27,60 @@ const SignUpPage = () => {
     hideDatePicker();
   };
 
+  const isEmailValid = (email) => {
+    // Regular expression for a valid email address
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const isNameValid = (name) => {
+    // You can define your own validation logic for the name
+    // For example, checking if it contains only letters
+    const nameRegex = /^[a-zA-Z]+$/;
+    return nameRegex.test(name);
+  };
+
+  const isPasswordValid = (password) => {
+    // You can define your own validation logic for the password
+    // For example, checking if it has a minimum length
+    return password.length >= 6;
+  };
+
+  const isSurnameValid = (surname) => {
+    // You can define your own validation logic for the surname
+    // For example, checking if it contains only letters
+    const surnameRegex = /^[a-zA-Z]+$/;
+    return surnameRegex.test(surname);
+  };
+
   const handleSignUp = () => {
     // Input validation
-    if (!name || !surname || !email || !password || !birthdate) {
-      Alert.alert('Validation Error', 'All fields are required');
+    if (!isNameValid(name)) {
+      Alert.alert('Validation Error', 'Invalid name');
       return;
     }
 
+    if (!isSurnameValid(surname)) {
+      Alert.alert('Validation Error', 'Invalid surname');
+      return;
+    }
+
+    if (!isEmailValid(email)) {
+      Alert.alert('Validation Error', 'Invalid email');
+      return;
+    }
+
+    if (!isPasswordValid(password)) {
+      Alert.alert('Validation Error', 'Password should be at least 6 characters');
+      return;
+    }
+
+    if (!birthdate) {
+      Alert.alert('Validation Error', 'Birthdate is required');
+      return;
+    }
+
+    // If all validations pass, proceed with sign-up
     console.log('Signing up with:', email, password, name, surname, birthdate);
     handleGetStarted();
   };
@@ -43,7 +90,7 @@ const SignUpPage = () => {
   };
 
   const handleGetStarted = () => {
-    navigation.navigate('CalendarPage');
+    navigation.navigate('SuccessfulSignupPage');
   };
 
   return (
@@ -104,90 +151,90 @@ const SignUpPage = () => {
         />
       </View>
 
-      <Button title="Sign Up" onPress={handleSignUp}/>
+      <Button title="Sign Up" onPress={handleSignUp} />
       <View style={styles.loginContainer}>
-      <Text style={styles.loginText}>
-        Already have an account?{' '}
-        <Text style={styles.link} onPress={handleLoginRedirect}>
-          Login
+        <Text style={styles.loginText}>
+          Already have an account?{' '}
+          <Text style={styles.link} onPress={handleLoginRedirect}>
+            Login
+          </Text>
         </Text>
-      </Text>
       </View>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      paddingHorizontal: 24,
-      paddingVertical: 32,
-      backgroundColor: '#f5f5f5',
-    },
-    title: {
-      fontSize: 32,
-      fontWeight: 'bold',
-      marginBottom: 16,
-      color: '#333',
-    },
-    inputContainer: {
-      marginBottom: 24,
-    },
-    label: {
-      marginBottom: 8,
-      fontSize: 16,
-      color: '#555',
-    },
-    input: {
-      height: 40,
-      borderColor: '#ccc',
-      borderWidth: 1,
-      borderRadius: 8,
-      paddingHorizontal: 12,
-      backgroundColor: '#fff',
-      color: '#333',
-    },
-    datePickerButton: {
-      height: 40,
-      borderRadius: 8,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#fff',
-      borderColor: '#ccc',
-      borderWidth: 1,
-    },
-    datePickerButtonText: {
-      fontSize: 16,
-      color: '#333',
-    },
-    signUpButton: {
-      height: 40,
-      borderRadius: 8,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#007bff',
-    },
-    signUpButtonText: {
-      fontSize: 18,
-      fontWeight: 'bold',
-      color: '#fff',
-    },
-    loginText: {
-      marginTop: 16,
-      textAlign: 'center',
-      color: '#555',
-    },
-    loginContainer: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        marginBottom: 16,
-      },
-    link: {
-      color: '#007bff',
-      textDecorationLine: 'underline',
-    },
-  });
-  
+  container: {
+    flex: 1,
+    paddingHorizontal: 24,
+    paddingVertical: 32,
+    backgroundColor: '#f5f5f5',
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    marginBottom: 16,
+    color: '#333',
+  },
+  inputContainer: {
+    marginBottom: 24,
+  },
+  label: {
+    marginBottom: 8,
+    fontSize: 16,
+    color: '#555',
+  },
+  input: {
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    backgroundColor: '#fff',
+    color: '#333',
+  },
+  datePickerButton: {
+    height: 40,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderColor: '#ccc',
+    borderWidth: 1,
+  },
+  datePickerButtonText: {
+    fontSize: 16,
+    color: '#333',
+  },
+  signUpButton: {
+    height: 40,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#007bff',
+  },
+  signUpButtonText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+  loginText: {
+    marginTop: 16,
+    textAlign: 'center',
+    color: '#555',
+  },
+  loginContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  link: {
+    color: '#007bff',
+    textDecorationLine: 'underline',
+  },
+});
 
 export default SignUpPage;
+
