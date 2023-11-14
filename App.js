@@ -7,7 +7,7 @@ import CalendarPage from '.app/CalendarPage';
 import ChooseAuthOption from '.app/ChooseAuthOption';
 import LoginPage from '.app/LoginPage';
 import SignUpPage from '.app/SignUpPage';
-
+import CreateTaskPage from './app/CreateTaskPage';
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -19,6 +19,7 @@ const App = () => {
         <Stack.Screen name="LoginPage" component={LoginPage} />
         <Stack.Screen name="SignUpPage" component={SignUpPage} />
         <Stack.Screen name="NextPage" component={CalendarPage} />
+        <Stack.Screen name="CreateTaskPage" component={CreateTaskPage} />
         {/*other screens*/}
       </Stack.Navigator>
     </NavigationContainer>
