@@ -1,0 +1,30 @@
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+using MongoDB.Driver;
+ 
+[Route("api/[controller]")]
+[ApiController]
+public class UserController : ControllerBase
+{
+    private readonly IMongoCollection<User> _users;
+ 
+    public UserController(IConfiguration configuration)
+    {
+        var context = new MongoDbContext(configuration);
+        _users = context.Users;
+    }
+ 
+    [HttpGet]
+    public ActionResult<List<User>> Get() =>
+        _users.Find(user => true).ToList();
+ 
+    [HttpPost]
+    public async Task<ActionResult<User>> Create(User user)
+    {
+        await _users.InsertOneAsync(user);
+        return CreatedAtRoute("GetUser", new { id = user.Id.ToString() }, user);
+    }
+}
