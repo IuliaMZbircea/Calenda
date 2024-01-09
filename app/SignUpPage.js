@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ScrollView, Alert } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { useNavigation } from '@react-navigation/native';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 const SignUpPage = () => {
   const navigation = useNavigation();
@@ -93,6 +94,19 @@ const SignUpPage = () => {
     navigation.navigate('SuccessfulSignupPage');
   };
 
+  const signUp = async () => {
+   
+    try{
+      const response = await createUserWithEmailAndPassword(auth, email, password);
+      console.log(response);
+      alert('Check your emails!');
+    } catch (error) {
+      console.log(error);
+      alert('Sign in failed: ' + error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Sign Up</Text>
@@ -151,7 +165,7 @@ const SignUpPage = () => {
         />
       </View>
 
-      <Button title="Sign Up" onPress={handleSignUp} />
+      <Button title="Sign Up" onPress={signUp} />
       <View style={styles.loginContainer}>
         <Text style={styles.loginText}>
           Already have an account?{' '}
