@@ -36,7 +36,7 @@ const CalendarPage = () => {
       {selectedDate && (
         <View style={styles.buttonContainer}>
           <Button
-            title="Create Task"
+            title="Create To Do List"
             onPress={navigateToCreateTask}
             color="#5E60CE"
           />
