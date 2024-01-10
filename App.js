@@ -8,6 +8,7 @@ import ChooseAuthOption from '.app/ChooseAuthOption';
 import LoginPage from '.app/LoginPage';
 import SignUpPage from '.app/SignUpPage';
 import CreateTaskPage from './app/CreateTaskPage';
+import CreateToDo from '.app/CreateToDo';
 import SuccessfulSignupPage from './app/SuccessfulSignupPage';
 import { onAuthStateChanged } from 'firebase/auth';
 import { FIREBASE_AUTH } from './FirebaseConfig';
@@ -47,7 +48,7 @@ const App = () => {
             <Stack.Screen name="SignUpPage" component={SignUpPage} />
           </>
         )}
-        <Stack.Screen name="CreateTaskPage" component={CreateTaskPage} />
+        <Stack.Screen name="CreateTaskPage" component={CreateToDo} />
         <Stack.Screen name="SuccessfulSignupPage" component={SuccessfulSignupPage} />
         {/* other screens */}
       </Stack.Navigator>

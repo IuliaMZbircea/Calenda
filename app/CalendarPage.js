@@ -12,8 +12,8 @@ const CalendarPage = () => {
     setSelectedDate(day.dateString);
   };
 
-  const navigateToCreateTask = () => {
-    navigation.navigate('CreateTaskPage', { date: selectedDate });
+  const navigateToCreateToDo = () => {
+    navigation.navigate('CreateToDo', { date: selectedDate });
   };
 
   return (
@@ -37,7 +37,7 @@ const CalendarPage = () => {
         <View style={styles.buttonContainer}>
           <Button
             title="Create To Do List"
-            onPress={navigateToCreateTask}
+            onPress={navigateToCreateToDo}
             color="#5E60CE"
           />
           <Text style={styles.selectedDateText}>
