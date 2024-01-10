@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Button, Text } from 'react-native';
-import { FIRESTORE_DB } from '../FirebaseConfig';
+import { FIREBASE_AUTH, FIRESTORE_DB } from '../FirebaseConfig';
 import { addDoc, collection, onSnapshot, updateDoc, doc, deleteDoc } from 'firebase/firestore';
 import { FlatList, TextInput} from 'react-native-gesture-handler';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Entypo } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const List = ({}) => {
+
+    const navigation = useNavigation();
 
     const [todos, setTodos] = useState([]);
     const [todo, setTodo] = useState('');
@@ -29,6 +32,11 @@ const List = ({}) => {
         });
         return () => subscriber();
      }, []);
+
+     const handleLogout = async () => {
+        await FIREBASE_AUTH.signOut();
+        navigation.navigate('LoginPage'); 
+      };
 
     const addTodo = async () => {
         const doc = await addDoc(collection(FIRESTORE_DB, 'todos'), { title: todo, done: false });
@@ -62,8 +70,10 @@ const List = ({}) => {
     return (
         <View style={styles.container}>
             <View style = {styles.form}>
+            <Button onPress={handleLogout} title = 'Log out'/>
             <TextInput style = {styles.input} placeholder = 'Add new todo' onChangeText={(text) => setTodo(text)} value={todo}/>
             <Button onPress={addTodo} title = 'Add Todo' disabled = {todo === ''}/>
+            
             </View>
             { todos.length > 0 && (
                 <View>
@@ -76,6 +86,7 @@ const List = ({}) => {
             )}
             
         </View>
+            
     );
 };
 
