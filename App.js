@@ -48,7 +48,7 @@ const App = () => {
             <Stack.Screen name="SignUpPage" component={SignUpPage} />
           </>
         )}
-        <Stack.Screen name="CreateTaskPage" component={CreateToDo} />
+        <Stack.Screen name="CreateToDo" component={CreateToDo} />
         <Stack.Screen name="SuccessfulSignupPage" component={SuccessfulSignupPage} />
         {/* other screens */}
       </Stack.Navigator>
