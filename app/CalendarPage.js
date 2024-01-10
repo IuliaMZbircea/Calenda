@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { useNavigation } from '@react-navigation/native';
+import { FIREBASE_AUTH, FIRESTORE_DB } from '../FirebaseConfig';
+import { onSnapshot, collection } from 'firebase/firestore';
 
 const CalendarPage = () => {
   const navigation = useNavigation();
   const [selectedDate, setSelectedDate] = useState(null);
+  const [tasks, setTasks] = useState([]);
 
   const onDayPress = (day) => {
     console.log('selected day', day);
@@ -13,8 +16,36 @@ const CalendarPage = () => {
   };
 
   const navigateToCreateToDo = () => {
-    navigation.navigate('CreateToDo', { date: selectedDate });
+    navigation.navigate('CreateToDo', { date: selectedDate, todos: tasks });
   };
+  
+
+  useEffect(() => {
+    const user = FIREBASE_AUTH.currentUser;
+
+    const fetchTasks = async () => {
+      if (user && selectedDate) {
+        const todoRef = collection(FIRESTORE_DB, `todos/${user.uid}/dates/${selectedDate}/tasks`);
+
+        const subscriber = onSnapshot(todoRef, {
+          next: (snapshot) => {
+            const tasks = [];
+            snapshot.docs.forEach((doc) => {
+              tasks.push({
+                id: doc.id,
+                ...doc.data(),
+              });
+            });
+            setTasks(tasks);
+          },
+        });
+
+        return () => subscriber();
+      }
+    };
+
+    fetchTasks();
+  }, [selectedDate]);
 
   return (
     <View style={styles.container}>
@@ -30,7 +61,7 @@ const CalendarPage = () => {
         minDate={new Date().toISOString().split('T')[0]}
         theme={calendarTheme}
         markedDates={{
-          [selectedDate]: {selected: true, selectedColor: '#5E60CE'}
+          [selectedDate]: { selected: true, selectedColor: '#5E60CE' },
         }}
       />
       {selectedDate && (
@@ -40,9 +71,12 @@ const CalendarPage = () => {
             onPress={navigateToCreateToDo}
             color="#5E60CE"
           />
-          <Text style={styles.selectedDateText}>
+          {/* <Text style={styles.selectedDateText}>
             Selected Date: {selectedDate}
-          </Text>
+          </Text> */}
+          {tasks.length > 0 && (
+            <Text style={styles.tasksText}>Tasks: {tasks.map((task) => task.title).join(', ')}</Text>
+          )}
         </View>
       )}
     </View>
@@ -65,7 +99,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#333333',
   },
+  tasksText: {
+    marginTop: 10,
+    textAlign: 'center',
+    fontSize: 16,
+    color: '#333333',
+    fontWeight: 'bold',
+  },
 });
+
+
 
 const calendarTheme = {
   backgroundColor: '#ffffff',
