@@ -6,7 +6,6 @@ const SuccessfulSignupPage = () => {
   const navigation = useNavigation();
 
   const handleContinue = () => {
-    // Navigate to the login page
     navigation.navigate('LoginPage');
   };
 
