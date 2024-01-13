@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, ScrollView, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, Button, StyleSheet, KeyboardAvoidingView, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { FIREBASE_AUTH } from '../FirebaseConfig';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
@@ -18,9 +18,16 @@ const SignUpPage = () => {
       Alert.alert('Sign up failed', error.message);
     }
   };
+  useEffect(() => {
+    // Disable the header for this screen
+    navigation.setOptions({
+      headerShown: false,
+    });
+  }, [navigation]);
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <View style={styles.container}>
+      <KeyboardAvoidingView behavior='padding' style = {styles.centeredContainer}>
       <Text style={styles.title}>Sign Up</Text>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Email</Text>
@@ -44,7 +51,8 @@ const SignUpPage = () => {
         />
       </View>
       <Button title="Sign Up" onPress={signUp} />
-    </ScrollView>
+      </KeyboardAvoidingView>
+    </View>
   );
 };
 
@@ -54,6 +62,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingVertical: 32,
     backgroundColor: '#f5f5f5',
+  },
+  centeredContainer: {
+    flex: 1,
+    justifyContent: 'center',
   },
   title: {
     fontSize: 32,
