@@ -31,7 +31,7 @@ const List = () => {
             });
             return () => subscriber();
         }
-    }, [selectedDate]);
+    }, []);
 
     const handleLogout = async () => {
         await FIREBASE_AUTH.signOut();
@@ -40,7 +40,7 @@ const List = () => {
 
     const addTodo = async () => {
         if (!user || !selectedDate || !todo) {
-            return; // Validation
+            return;
         }
 
         const todoRef = collection(FIRESTORE_DB, `todos/${user.uid}/dates/${selectedDate}/tasks`);
@@ -53,6 +53,7 @@ const List = () => {
 
         const toggleDone = async () => {
             updateDoc(ref, { done: !item.done });
+        
         };
 
         const deleteItem = async () => {

@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, Button, FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, StyleSheet, Text, Button, TouchableOpacity, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../FirebaseConfig';
 import {
-  addDoc,
   collection,
   onSnapshot,
-  updateDoc,
-  doc,
-  deleteDoc,
 } from 'firebase/firestore';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { Agenda } from 'react-native-calendars';
 
 
@@ -43,7 +38,6 @@ const CalendarPage = () => {
     }
   }, [selectedDate]);
   useEffect(() => {
-    // Disable the header for this screen
     navigation.setOptions({
       headerShown: false,
     });
@@ -53,63 +47,25 @@ const CalendarPage = () => {
   const onDayPress = (day) => {
     setSelectedDate(day.dateString);
   };
-  const navigateToCreateToDo = () => {
-    navigation.navigate('CreateToDo', { date: selectedDate });
+  const navigateToCreateToDo = (item) => {
+    navigation.navigate('CreateToDo', { date: selectedDate, todoItem: item });
   };
 
-  const addTodo = async () => {
-    if (!user || !selectedDate || !todo) {
-      return; // Validation
-    }
-
-    const todoRef = collection(
-      FIRESTORE_DB,
-      `todos/${user.uid}/dates/${selectedDate}/tasks`
-    );
-    await addDoc(todoRef, { title: todo, done: false });
-    setTodo('');
-  };
-
-  const renderTodo = ({ item }) => {
-    const ref = doc(
-      FIRESTORE_DB,
-      `todos/${user.uid}/dates/${selectedDate}/tasks/${item.id}`
-    );
-
-    const toggleDone = async () => {
-      updateDoc(ref, { done: !item.done });
-    };
-
-    const deleteItem = async () => {
-      deleteDoc(ref);
-    };
-
-    return (
-      <View style={styles.todoContainer}>
-        <TouchableOpacity onPress={toggleDone} style={styles.todo}>
-          {item.done ? (
-            <Ionicons name="checkmark-done" size={24} color="#2ecc71" />
-          ) : (
-            <Ionicons name="ellipse-outline" size={24} color="#3498db" />
-          )}
-          <Text style={styles.todoText}>{item.title}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={deleteItem}>
-          <Ionicons name="trash-bin-outline" size={24} color="#e74c3c" />
-        </TouchableOpacity>
-      </View>
-    );
-  };
 
   const renderItem = (item) => {
-    return (
-      <View style={styles.todoContainer}>
-        <TouchableOpacity onPress={() => console.log(item)} style={styles.todo}>
-          <Text style={styles.todoText}>{item.title}</Text>
-        </TouchableOpacity>
+  return (
+    <TouchableOpacity onPress={() => navigateToCreateToDo(item)} style={styles.todoContainer}>
+      <View style={styles.todo}>
+        <Text style={[
+          styles.todoText,
+          { textDecorationLine: item.done ? 'line-through' : 'none', color: item.done ? '#2ecc71' : '#3498db' }
+        ]}>
+          {item.title}
+        </Text>
       </View>
-    );
-  };
+    </TouchableOpacity>
+  );
+};
 
   return (
     <SafeAreaView style={styles.container}>
@@ -126,38 +82,6 @@ const CalendarPage = () => {
         renderItem={renderItem}
         onDayPress={onDayPress}
       />
-
-      {/* <KeyboardAwareScrollView
-        style={styles.keyboardAwareScrollView}
-        contentContainerStyle={styles.contentContainer}
-      >
-        {selectedDate && (
-          <View style={styles.todoSection}>
-            <View style={styles.form}>
-              <TextInput
-                style={styles.input}
-                placeholder="Add new todo"
-                onChangeText={(text) => setTodo(text)}
-                value={todo}
-              />
-              <Button
-                onPress={addTodo}
-                title="Add"
-                disabled={todo === ''}
-              />
-            </View>
-            {todos.length === 0 && (
-              <Text style={styles.noTodosText}>No todos for this day</Text>
-            )}
-            <FlatList
-              data={todos}
-              renderItem={renderTodo}
-              keyExtractor={(item) => item.id}
-              contentContainerStyle={styles.todoList}
-            />
-          </View>
-        )}
-      </KeyboardAwareScrollView> */}
       <View style={styles.buttonContainer}>
           <Button
             title="Create To Do"
