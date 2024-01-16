@@ -1,5 +1,6 @@
 // ChooseAuthOption.js
-import React from 'react';
+import React, { useEffect } from 'react';
+
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -7,6 +8,12 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 const ChooseAuthOption = () => {
   const navigation = useNavigation();
+  useEffect(() => {
+    // Disable the header for this screen
+    navigation.setOptions({
+      headerShown: false,
+    });
+  }, [navigation]);
 
   const handleLogin = () => {
     navigation.navigate('LoginPage');

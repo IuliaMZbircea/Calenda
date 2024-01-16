@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { FIREBASE_AUTH } from '../FirebaseConfig';
@@ -17,6 +17,12 @@ const LoginPage = () => {
       setPassword('');
     }, [])
   );
+  useEffect(() => {
+    // Disable the header for this screen
+    navigation.setOptions({
+      headerShown: false,
+    });
+  }, [navigation]);
 
   const signIn = async () => {
     setLoading(true);
@@ -38,7 +44,7 @@ const LoginPage = () => {
 
   return (
     <View style={styles.container}>
-      <KeyboardAvoidingView behavior='padding'>
+      <KeyboardAvoidingView behavior='padding' style = {styles.centeredContainer}>
         <Text style={styles.title}>Login</Text>
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Email</Text>
@@ -81,6 +87,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingVertical: 32,
     backgroundColor: '#f5f5f5',
+  },
+  centeredContainer: {
+    flex: 1,
+    justifyContent: 'center',
   },
   title: {
     fontSize: 32,

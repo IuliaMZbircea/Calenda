@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import CustomButton from './components/CustomButton';
 import { useNavigation } from '@react-navigation/native';
@@ -10,6 +10,12 @@ const Home = () => {
     // Navigate to a screen where the user can choose between login and sign-up
     navigation.navigate('ChooseAuthOptionPage');
   };
+  useEffect(() => {
+    // Disable the header for this screen
+    navigation.setOptions({
+      headerShown: false,
+    });
+  }, [navigation]);
 
   return (
     <View style={styles.container}>

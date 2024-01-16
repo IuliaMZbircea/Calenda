@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -8,6 +8,13 @@ const SuccessfulSignupPage = () => {
   const handleContinue = () => {
     navigation.navigate('LoginPage');
   };
+
+  useEffect(() => {
+    // Disable the header for this screen
+    navigation.setOptions({
+      headerShown: false,
+    });
+  }, [navigation]);
 
   return (
     <TouchableOpacity style={styles.container} onPress={handleContinue}>
